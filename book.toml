@@ -1,0 +1,6 @@
+[book]
+authors = ["Nixon"]
+language = "en"
+multilingual = false
+src = "categorys"
+title = "PicoCTF 2019 writeup"
