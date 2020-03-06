@@ -64,4 +64,19 @@
     - [slippery-shellcode](./binary/4-slippery-shellcode/README.md)
     - [OverFlow 2](./binary/5-overflow-2/README.md)
     - [NewOverFlow-1](./binary/6-newoverflow-1/README.md)
-    - [NewOverFlow-2](./binary/7-newoverflow-2/README.md)
+    - [NewOverFlow-2 (INCOMPLETE)](./binary/7-newoverflow-2/README.md)
+
+- [Web Exploitation](./web/README.md)
+    - [Insp3ct0r](./web/0-insp3ct0r/README.md)
+    - [dont-use-client-side](./web/1-dont-use-client-side.md)
+
+- [Reverse Engineering](./reversing/READMD.md)
+    - [vault-door-training](./reversing/0-vault-door-training/READMD.md)
+    - [vault-door-1](./reversing/1-vault-door-1/README.md)
+    - [vault-door-3](./reversing/2-vault-door-3/README.md)
+    - [vault-door-4](./reversing/3-vault-door-4/README.md)
+    - [vault-door-5](./reversing/4-vault-door-5/README.md)
+    - [vault-door-6](./reversing/5-vault-door-6/README.md)
+    - [vault-door-7](./reversing/6-vault-door-7/README.md)
+    - [vault-door-8](./reversing/7-vault-door-8/README.md)
+
