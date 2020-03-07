@@ -79,4 +79,5 @@
     - [vault-door-6](./reversing/5-vault-door-6/README.md)
     - [vault-door-7](./reversing/6-vault-door-7/README.md)
     - [vault-door-8](./reversing/7-vault-door-8/README.md)
+    - [asm1](./reversing/8-asm1/README.md)
 
