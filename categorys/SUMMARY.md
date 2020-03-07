@@ -69,6 +69,20 @@
 - [Web Exploitation](./web/README.md)
     - [Insp3ct0r](./web/0-insp3ct0r/README.md)
     - [dont-use-client-side](./web/1-dont-use-client-side.md)
+    - [logon](./web/2-logon/README.md)
+    - [where are the robots](./web/3-where-are-the-robots.md)
+    - [Client-side-again](./web/4-Client-side-again.md)
+    - [Open-to-admins](./web/5-Open-to-admins/README.md)
+    - [picobrowser](./web/6-picobrowser.md)
+    - [Irish-Name-Repo 1](./web/7-Irish-Name-Repo-1.md)
+    - [Irish-Name-Repo 2](./web/8-Irish-Name-Repo-2.md)
+    - [Irish-Name-Repo 3](./web/9-Irish-Name-Repo-3.md)
+    - [Empire1](./web/10-Empire1.md)
+    - [Empire2](./web/11-Empire2.md)
+    - [Empire3](./web/12-Empire3.md)
+    - [JaWT Scratchpad](./web/13-JaWT-Scratchpad/README.md)
+    - [Java Script Kiddie](./web/14-Java-Script-Kiddie/README.md)
+
 
 - [Reverse Engineering](./reversing/READMD.md)
     - [vault-door-training](./reversing/0-vault-door-training/READMD.md)
@@ -79,5 +93,5 @@
     - [vault-door-6](./reversing/5-vault-door-6/README.md)
     - [vault-door-7](./reversing/6-vault-door-7/README.md)
     - [vault-door-8](./reversing/7-vault-door-8/README.md)
-    - [asm1](./reversing/8-asm1/README.md)
+    - [asm1 (INCOMPLETE)](./reversing/8-asm1/README.md)
 

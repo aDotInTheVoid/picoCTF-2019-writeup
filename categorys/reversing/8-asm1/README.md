@@ -24,3 +24,14 @@ asm1:
 	<+60>:	pop    ebp
 	<+61>:	ret    
 ```
+If we try to run it through gcc ([`gcc -m32 -c test.S -o asm.o`](https://explainshell.com/explain?cmd=+gcc+-m32+-c+test.S+-o+asm.o)) but this gives a bunch of errors due to the `<+32>` markers etc.
+
+[Someone very clever](https://github.com/noahc3/picoctf-2019-solutions/tree/master/Reverse%20Engineering/asm1) figured out a way to run this, but that's not learning.
+
+Instead [learn assembly](https://www.cs.virginia.edu/~evans/cs216/guides/x86.html).
+
+First let's look at the regesters we have
+
+![x86 registers](https://www.cs.virginia.edu/~evans/cs216/guides/x86-registers.png)
+
+The import ones are `esp` and `ebp`
