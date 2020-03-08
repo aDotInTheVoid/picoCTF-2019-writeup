@@ -82,6 +82,9 @@
     - [Empire3](./web/12-Empire3.md)
     - [JaWT Scratchpad](./web/13-JaWT-Scratchpad/README.md)
     - [Java Script Kiddie](./web/14-Java-Script-Kiddie/README.md)
+    - [Java Script Kiddie 2](./web/15-Java-Script-Kiddie-2/README.md)
+    - [cereal hacker 1](./web/16-cereal-hacker-1/README.md)
+    - [cereal hacker 2](./web/17-cereal-hacker-2/README.md)
 
 
 - [Reverse Engineering](./reversing/READMD.md)
