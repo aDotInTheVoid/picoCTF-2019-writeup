@@ -96,5 +96,9 @@
     - [vault-door-6](./reversing/5-vault-door-6/README.md)
     - [vault-door-7](./reversing/6-vault-door-7/README.md)
     - [vault-door-8](./reversing/7-vault-door-8/README.md)
-    - [asm1 (INCOMPLETE)](./reversing/8-asm1/README.md)
+    - [asm1](./reversing/8-asm1/README.md)
+    - [asm2](./reversing/9-asm2/README.md)
+    - [asm3](./reversing/10-asm3/README.md)
+    - [asm4](./reversing/11-asm4/README.md)
+    - [reverse_cipher](./reversing/12-reverse_cipher/README.md)
 
