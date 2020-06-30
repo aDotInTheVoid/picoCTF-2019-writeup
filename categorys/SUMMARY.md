@@ -101,4 +101,10 @@
     - [asm3](./reversing/10-asm3/README.md)
     - [asm4](./reversing/11-asm4/README.md)
     - [reverse_cipher](./reversing/12-reverse_cipher/README.md)
+    - [droids0](./reversing/13-droids0/README.md)
+    - [droids1](./reversing/14-droids1/README.md)
+    - [droids2](./reversing/15-droids2/README.md)
+    - [droids3](./reversing/16-droids3/README.md)
+    - [droids4](./reversing/17-droids4/README.md)
+    - [Need For Speed](./reversing/18-Need-For-Speed/README.md)
 
