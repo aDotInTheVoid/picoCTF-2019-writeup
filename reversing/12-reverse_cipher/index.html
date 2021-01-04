@@ -1,0 +1,486 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>reverse_cipher - PicoCTF 2019 writeup</title>
+        
+        
+
+
+        <!-- Custom HTML head -->
+        
+
+
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        
+        <link rel="icon" href="../../favicon.svg">
+        
+        
+        <link rel="shortcut icon" href="../../favicon.png">
+        
+        <link rel="stylesheet" href="../../css/variables.css">
+        <link rel="stylesheet" href="../../css/general.css">
+        <link rel="stylesheet" href="../../css/chrome.css">
+        
+        <link rel="stylesheet" href="../../css/print.css" media="print">
+        
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="../../FontAwesome/css/font-awesome.css">
+        
+        <link rel="stylesheet" href="../../fonts/fonts.css">
+        
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="../../highlight.css">
+        <link rel="stylesheet" href="../../tomorrow-night.css">
+        <link rel="stylesheet" href="../../ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+        
+
+        
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "../../";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="../../general/index.html"><strong aria-hidden="true">1.</strong> General skills</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../general/0-the-factorys-secret.html"><strong aria-hidden="true">1.1.</strong> The Factory's Secret</a></li><li class="chapter-item expanded "><a href="../../general/1-lets-warm-up.html"><strong aria-hidden="true">1.2.</strong> Lets Warm Up</a></li><li class="chapter-item expanded "><a href="../../general/2-warmed-up.html"><strong aria-hidden="true">1.3.</strong> Warmed Up</a></li><li class="chapter-item expanded "><a href="../../general/3-2warm.html"><strong aria-hidden="true">1.4.</strong> 2Warm</a></li><li class="chapter-item expanded "><a href="../../general/4-bases.html"><strong aria-hidden="true">1.5.</strong> Bases</a></li><li class="chapter-item expanded "><a href="../../general/5-first-grep.html"><strong aria-hidden="true">1.6.</strong> First Grep</a></li><li class="chapter-item expanded "><a href="../../general/6-resources.html"><strong aria-hidden="true">1.7.</strong> Resources</a></li><li class="chapter-item expanded "><a href="../../general/7-strings-it.html"><strong aria-hidden="true">1.8.</strong> strings it</a></li><li class="chapter-item expanded "><a href="../../general/8-whats-a-net-cat.html"><strong aria-hidden="true">1.9.</strong> what’s a net cat?</a></li><li class="chapter-item expanded "><a href="../../general/9-based.html"><strong aria-hidden="true">1.10.</strong> Based</a></li><li class="chapter-item expanded "><a href="../../general/10-first-grep-2.html"><strong aria-hidden="true">1.11.</strong> First Grep: Part II</a></li><li class="chapter-item expanded "><a href="../../general/11-plumbing.html"><strong aria-hidden="true">1.12.</strong> Plumbing</a></li><li class="chapter-item expanded "><a href="../../general/12-whats-the-difference/index.html"><strong aria-hidden="true">1.13.</strong> whats-the-difference</a></li><li class="chapter-item expanded "><a href="../../general/13-where-is-the-file.html"><strong aria-hidden="true">1.14.</strong> where-is-the-file</a></li><li class="chapter-item expanded "><a href="../../general/14-flag_shop.html"><strong aria-hidden="true">1.15.</strong> flag_shop</a></li><li class="chapter-item expanded "><a href="../../general/15-mus1c.html"><strong aria-hidden="true">1.16.</strong> mus1c</a></li><li class="chapter-item expanded "><a href="../../general/16-1_wanna_b3_a_r0ck5tar.html"><strong aria-hidden="true">1.17.</strong> 1_wanna_b3_a_r0ck5tar</a></li></ol></li><li class="chapter-item expanded "><a href="../../forensics/index.html"><strong aria-hidden="true">2.</strong> Forensics</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../forensics/0-glory-of-the-gardin/index.html"><strong aria-hidden="true">2.1.</strong> Glory of the Garden</a></li><li class="chapter-item expanded "><a href="../../forensics/1-unzip/index.html"><strong aria-hidden="true">2.2.</strong> unzip</a></li><li class="chapter-item expanded "><a href="../../forensics/2-so-meta/index.html"><strong aria-hidden="true">2.3.</strong> So Meta</a></li><li class="chapter-item expanded "><a href="../../forensics/3-what-lies-within/index.html"><strong aria-hidden="true">2.4.</strong> What Lies Within</a></li><li class="chapter-item expanded "><a href="../../forensics/4-extensions/index.html"><strong aria-hidden="true">2.5.</strong> extensions</a></li><li class="chapter-item expanded "><a href="../../forensics/5-shark-on-wire-1/index.html"><strong aria-hidden="true">2.6.</strong> shark on wire 1</a></li><li class="chapter-item expanded "><a href="../../forensics/6-WhitePages/index.html"><strong aria-hidden="true">2.7.</strong> WhitePages</a></li><li class="chapter-item expanded "><a href="../../forensics/7-c0rrupt/index.html"><strong aria-hidden="true">2.8.</strong> c0rrupt</a></li><li class="chapter-item expanded "><a href="../../forensics/8-like1000/index.html"><strong aria-hidden="true">2.9.</strong> like1000</a></li><li class="chapter-item expanded "><a href="../../forensics/9-m00nwalk/index.html"><strong aria-hidden="true">2.10.</strong> m00nwalk</a></li><li class="chapter-item expanded "><a href="../../forensics/10-investigative-reversing-0/index.html"><strong aria-hidden="true">2.11.</strong> Investigative Reversing 0</a></li><li class="chapter-item expanded "><a href="../../forensics/11-m00nwalk2/index.html"><strong aria-hidden="true">2.12.</strong> m00nwalk2</a></li><li class="chapter-item expanded "><a href="../../forensics/12-shark-on-wire-2/index.html"><strong aria-hidden="true">2.13.</strong> shark on wire 2</a></li><li class="chapter-item expanded "><a href="../../forensics/13-investigative-reversing-1/index.html"><strong aria-hidden="true">2.14.</strong> Investigative Reversing 1</a></li><li class="chapter-item expanded "><a href="../../forensics/14-investigative-reversing-2/index.html"><strong aria-hidden="true">2.15.</strong> Investigative Reversing 2 (INCOMPLETE)</a></li><li class="chapter-item expanded "><a href="../../forensics/15-webnet0/index.html"><strong aria-hidden="true">2.16.</strong> WebNet0</a></li><li class="chapter-item expanded "><a href="../../forensics/16-pastaAAA/index.html"><strong aria-hidden="true">2.17.</strong> pastaAAA</a></li><li class="chapter-item expanded "><a href="../../forensics/17-webnet1/index.html"><strong aria-hidden="true">2.18.</strong> WebNet1</a></li></ol></li><li class="chapter-item expanded "><a href="../../cryptography/index.html"><strong aria-hidden="true">3.</strong> Cryptography</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../cryptography/0-the-numbers/index.html"><strong aria-hidden="true">3.1.</strong> The Numbers</a></li><li class="chapter-item expanded "><a href="../../cryptography/1-13.html"><strong aria-hidden="true">3.2.</strong> 13</a></li><li class="chapter-item expanded "><a href="../../cryptography/2-easy1.html"><strong aria-hidden="true">3.3.</strong> Easy1</a></li><li class="chapter-item expanded "><a href="../../cryptography/3-caesar.html"><strong aria-hidden="true">3.4.</strong> caesar</a></li><li class="chapter-item expanded "><a href="../../cryptography/4-flags.html"><strong aria-hidden="true">3.5.</strong> Flags</a></li><li class="chapter-item expanded "><a href="../../cryptography/5-mr-worldwide.html"><strong aria-hidden="true">3.6.</strong> Mr-Worldwide</a></li><li class="chapter-item expanded "><a href="../../cryptography/6-tapping.html"><strong aria-hidden="true">3.7.</strong> Tapping</a></li><li class="chapter-item expanded "><a href="../../cryptography/7-la-cifra-de.html"><strong aria-hidden="true">3.8.</strong> la cifra de</a></li><li class="chapter-item expanded "><a href="../../cryptography/8-rsa-pop-quiz.html"><strong aria-hidden="true">3.9.</strong> rsa-pop-quiz</a></li><li class="chapter-item expanded "><a href="../../cryptography/9-miniRSA.html"><strong aria-hidden="true">3.10.</strong> miniRSA</a></li><li class="chapter-item expanded "><a href="../../cryptography/10-waves-over-lambda.html"><strong aria-hidden="true">3.11.</strong> waves over lambda</a></li><li class="chapter-item expanded "><a href="../../cryptography/11-b00tl3gRSA2.html"><strong aria-hidden="true">3.12.</strong> b00tl3gRSA2</a></li><li class="chapter-item expanded "><a href="../../cryptography/12-AES-ABC/index.html"><strong aria-hidden="true">3.13.</strong> AES-ABC</a></li><li class="chapter-item expanded "><a href="../../cryptography/13-b00tl3gRSA3.html"><strong aria-hidden="true">3.14.</strong> b00tl3gRSA3</a></li><li class="chapter-item expanded "><a href="../../cryptography/14-john_pollard.html"><strong aria-hidden="true">3.15.</strong> john_pollard</a></li></ol></li><li class="chapter-item expanded "><a href="../../binary/index.html"><strong aria-hidden="true">4.</strong> Binary Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../binary/0-handy-shellcode/index.html"><strong aria-hidden="true">4.1.</strong> handy-shellcode</a></li><li class="chapter-item expanded "><a href="../../binary/1-practice-run-1/index.html"><strong aria-hidden="true">4.2.</strong> practice-run-1</a></li><li class="chapter-item expanded "><a href="../../binary/2-overflow-0/index.html"><strong aria-hidden="true">4.3.</strong> overflow-0</a></li><li class="chapter-item expanded "><a href="../../binary/3-overflow-1/index.html"><strong aria-hidden="true">4.4.</strong> overflow-1</a></li><li class="chapter-item expanded "><a href="../../binary/4-slippery-shellcode/index.html"><strong aria-hidden="true">4.5.</strong> slippery-shellcode</a></li><li class="chapter-item expanded "><a href="../../binary/5-overflow-2/index.html"><strong aria-hidden="true">4.6.</strong> OverFlow 2</a></li><li class="chapter-item expanded "><a href="../../binary/6-newoverflow-1/index.html"><strong aria-hidden="true">4.7.</strong> NewOverFlow-1</a></li><li class="chapter-item expanded "><a href="../../binary/7-newoverflow-2/index.html"><strong aria-hidden="true">4.8.</strong> NewOverFlow-2 (INCOMPLETE)</a></li></ol></li><li class="chapter-item expanded "><a href="../../web/index.html"><strong aria-hidden="true">5.</strong> Web Exploitation</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../web/0-insp3ct0r/index.html"><strong aria-hidden="true">5.1.</strong> Insp3ct0r</a></li><li class="chapter-item expanded "><a href="../../web/1-dont-use-client-side.html"><strong aria-hidden="true">5.2.</strong> dont-use-client-side</a></li><li class="chapter-item expanded "><a href="../../web/2-logon/index.html"><strong aria-hidden="true">5.3.</strong> logon</a></li><li class="chapter-item expanded "><a href="../../web/3-where-are-the-robots.html"><strong aria-hidden="true">5.4.</strong> where are the robots</a></li><li class="chapter-item expanded "><a href="../../web/4-Client-side-again.html"><strong aria-hidden="true">5.5.</strong> Client-side-again</a></li><li class="chapter-item expanded "><a href="../../web/5-Open-to-admins/index.html"><strong aria-hidden="true">5.6.</strong> Open-to-admins</a></li><li class="chapter-item expanded "><a href="../../web/6-picobrowser.html"><strong aria-hidden="true">5.7.</strong> picobrowser</a></li><li class="chapter-item expanded "><a href="../../web/7-Irish-Name-Repo-1.html"><strong aria-hidden="true">5.8.</strong> Irish-Name-Repo 1</a></li><li class="chapter-item expanded "><a href="../../web/8-Irish-Name-Repo-2.html"><strong aria-hidden="true">5.9.</strong> Irish-Name-Repo 2</a></li><li class="chapter-item expanded "><a href="../../web/9-Irish-Name-Repo-3.html"><strong aria-hidden="true">5.10.</strong> Irish-Name-Repo 3</a></li><li class="chapter-item expanded "><a href="../../web/10-Empire1.html"><strong aria-hidden="true">5.11.</strong> Empire1</a></li><li class="chapter-item expanded "><a href="../../web/11-Empire2.html"><strong aria-hidden="true">5.12.</strong> Empire2</a></li><li class="chapter-item expanded "><a href="../../web/12-Empire3.html"><strong aria-hidden="true">5.13.</strong> Empire3</a></li><li class="chapter-item expanded "><a href="../../web/13-JaWT-Scratchpad/index.html"><strong aria-hidden="true">5.14.</strong> JaWT Scratchpad</a></li><li class="chapter-item expanded "><a href="../../web/14-Java-Script-Kiddie/index.html"><strong aria-hidden="true">5.15.</strong> Java Script Kiddie</a></li><li class="chapter-item expanded "><a href="../../web/15-Java-Script-Kiddie-2/index.html"><strong aria-hidden="true">5.16.</strong> Java Script Kiddie 2</a></li><li class="chapter-item expanded "><a href="../../web/16-cereal-hacker-1/index.html"><strong aria-hidden="true">5.17.</strong> cereal hacker 1</a></li><li class="chapter-item expanded "><a href="../../web/17-cereal-hacker-2/index.html"><strong aria-hidden="true">5.18.</strong> cereal hacker 2</a></li></ol></li><li class="chapter-item expanded "><a href="../../reversing/READMD.html"><strong aria-hidden="true">6.</strong> Reverse Engineering</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reversing/0-vault-door-training/READMD.html"><strong aria-hidden="true">6.1.</strong> vault-door-training</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reversing/1-vault-door-1/index.html"><strong aria-hidden="true">6.1.1.</strong> vault-door-1</a></li><li class="chapter-item expanded "><a href="../../reversing/2-vault-door-3/index.html"><strong aria-hidden="true">6.1.2.</strong> vault-door-3</a></li><li class="chapter-item expanded "><a href="../../reversing/3-vault-door-4/index.html"><strong aria-hidden="true">6.1.3.</strong> vault-door-4</a></li><li class="chapter-item expanded "><a href="../../reversing/4-vault-door-5/index.html"><strong aria-hidden="true">6.1.4.</strong> vault-door-5</a></li><li class="chapter-item expanded "><a href="../../reversing/5-vault-door-6/index.html"><strong aria-hidden="true">6.1.5.</strong> vault-door-6</a></li><li class="chapter-item expanded "><a href="../../reversing/6-vault-door-7/index.html"><strong aria-hidden="true">6.1.6.</strong> vault-door-7</a></li><li class="chapter-item expanded "><a href="../../reversing/7-vault-door-8/index.html"><strong aria-hidden="true">6.1.7.</strong> vault-door-8</a></li></ol></li><li class="chapter-item expanded "><a href="../../reversing/8-asm1/index.html"><strong aria-hidden="true">6.2.</strong> asm1</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reversing/9-asm2/index.html"><strong aria-hidden="true">6.2.1.</strong> asm2</a></li><li class="chapter-item expanded "><a href="../../reversing/10-asm3/index.html"><strong aria-hidden="true">6.2.2.</strong> asm3</a></li><li class="chapter-item expanded "><a href="../../reversing/11-asm4/index.html"><strong aria-hidden="true">6.2.3.</strong> asm4</a></li></ol></li><li class="chapter-item expanded "><a href="../../reversing/12-reverse_cipher/index.html" class="active"><strong aria-hidden="true">6.3.</strong> reverse_cipher</a></li><li class="chapter-item expanded "><a href="../../reversing/13-droids0/index.html"><strong aria-hidden="true">6.4.</strong> droids0</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reversing/14-droids1/index.html"><strong aria-hidden="true">6.4.1.</strong> droids1</a></li><li class="chapter-item expanded "><a href="../../reversing/15-droids2/index.html"><strong aria-hidden="true">6.4.2.</strong> droids2</a></li><li class="chapter-item expanded "><a href="../../reversing/16-droids3/index.html"><strong aria-hidden="true">6.4.3.</strong> droids3</a></li><li class="chapter-item expanded "><a href="../../reversing/17-droids4/index.html"><strong aria-hidden="true">6.4.4.</strong> droids4</a></li></ol></li><li class="chapter-item expanded "><a href="../../reversing/18-Need-For-Speed/index.html"><strong aria-hidden="true">6.5.</strong> Need For Speed</a></li><li class="chapter-item expanded "><a href="../../reversing/19-Times-Up/index.html"><strong aria-hidden="true">6.6.</strong> Time's Up</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="../../reversing/20-Times-Up-Again/index.html"><strong aria-hidden="true">6.6.1.</strong> Time's Up, Again!</a></li></ol></li><li class="chapter-item expanded "><a href="../../reversing/21-B1ll_Gat35/index.html"><strong aria-hidden="true">6.7.</strong> B1ll_Gat35</a></li></ol></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                
+                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                        
+                    </div>
+
+                    <h1 class="menu-title">PicoCTF 2019 writeup</h1>
+
+                    <div class="right-buttons">
+                        
+                        <a href="../../print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        
+                        
+                    </div>
+                </div>
+
+                
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" name="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+                
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1><a class="header" href="#reverse_cipher" id="reverse_cipher">reverse_cipher</a></h1>
+<p>Acording to r2, the asm is </p>
+<pre><code class="language-x86asm">            ; DATA XREF from entry0 @ 0x10bd
+┌ 324: int main (int argc, char **argv, char **envp);
+│           ; var void *ptr @ rbp-0x50
+│           ; var int64_t var_39h @ rbp-0x39
+│           ; var size_t var_24h @ rbp-0x24
+│           ; var file*var_20h @ rbp-0x20
+│           ; var file*stream @ rbp-0x18
+│           ; var signed int64_t var_ch @ rbp-0xc
+│           ; var signed int64_t var_8h @ rbp-0x8
+│           ; var int64_t c @ rbp-0x1
+│           0x00001185      55             push rbp
+│           0x00001186      4889e5         mov rbp, rsp
+│           0x00001189      4883ec50       sub rsp, 0x50
+│           0x0000118d      488d35740e00.  lea rsi, [0x00002008]       ; &quot;r&quot; ; const char *mode
+│           0x00001194      488d3d6f0e00.  lea rdi, str.flag.txt       ; 0x200a ; &quot;flag.txt&quot; ; const char *filename
+│           0x0000119b      e8d0feffff     call sym.imp.fopen          ; file*fopen(const char *filename, const char *mode)
+│           0x000011a0      488945e8       mov qword [stream], rax
+│           0x000011a4      488d35680e00.  lea rsi, [0x00002013]       ; &quot;a&quot; ; const char *mode
+│           0x000011ab      488d3d630e00.  lea rdi, str.rev_this       ; 0x2015 ; &quot;rev_this&quot; ; const char *filename
+│           0x000011b2      e8b9feffff     call sym.imp.fopen          ; file*fopen(const char *filename, const char *mode)
+│           0x000011b7      488945e0       mov qword [var_20h], rax
+│           0x000011bb      48837de800     cmp qword [stream], 0
+│       ┌─&lt; 0x000011c0      750c           jne 0x11ce
+│       │   0x000011c2      488d3d570e00.  lea rdi, str.No_flag_found__please_make_sure_this_is_run_on_the_server ; 0x2020 ; &quot;No flag found, please make sure this is run on the server&quot; ; const char *s
+│       │   0x000011c9      e862feffff     call sym.imp.puts           ; int puts(const char *s)
+│       │   ; CODE XREF from main @ 0x11c0
+│       └─&gt; 0x000011ce      48837de000     cmp qword [var_20h], 0
+│       ┌─&lt; 0x000011d3      750c           jne 0x11e1
+│       │   0x000011d5      488d3d7e0e00.  lea rdi, str.please_run_this_on_the_server ; 0x205a ; &quot;please run this on the server&quot; ; const char *s
+│       │   0x000011dc      e84ffeffff     call sym.imp.puts           ; int puts(const char *s)
+│       │   ; CODE XREF from main @ 0x11d3
+│       └─&gt; 0x000011e1      488b55e8       mov rdx, qword [stream]
+│           0x000011e5      488d45b0       lea rax, [ptr]
+│           0x000011e9      4889d1         mov rcx, rdx                ; FILE *stream
+│           0x000011ec      ba01000000     mov edx, 1                  ; size_t nmemb
+│           0x000011f1      be18000000     mov esi, 0x18               ; size_t size
+│           0x000011f6      4889c7         mov rdi, rax                ; void *ptr
+│           0x000011f9      e842feffff     call sym.imp.fread          ; size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream)
+│           0x000011fe      8945dc         mov dword [var_24h], eax
+│           0x00001201      837ddc00       cmp dword [var_24h], 0
+│       ┌─&lt; 0x00001205      7f0a           jg 0x1211
+│       │   0x00001207      bf00000000     mov edi, 0                  ; int status
+│       │   0x0000120c      e86ffeffff     call sym.imp.exit           ; void exit(int status)
+│       │   ; CODE XREF from main @ 0x1205
+│       └─&gt; 0x00001211      c745f8000000.  mov dword [var_8h], 0
+│       ┌─&lt; 0x00001218      eb23           jmp 0x123d
+│       │   ; CODE XREF from main @ 0x1241
+│      ┌──&gt; 0x0000121a      8b45f8         mov eax, dword [var_8h]
+│      ╎│   0x0000121d      4898           cdqe
+│      ╎│   0x0000121f      0fb64405b0     movzx eax, byte [rbp + rax - 0x50]
+│      ╎│   0x00001224      8845ff         mov byte [c], al
+│      ╎│   0x00001227      0fbe45ff       movsx eax, byte [c]
+│      ╎│   0x0000122b      488b55e0       mov rdx, qword [var_20h]
+│      ╎│   0x0000122f      4889d6         mov rsi, rdx                ; FILE *stream
+│      ╎│   0x00001232      89c7           mov edi, eax                ; int c
+│      ╎│   0x00001234      e827feffff     call sym.imp.fputc          ; int fputc(int c, FILE *stream)
+│      ╎│   0x00001239      8345f801       add dword [var_8h], 1
+│      ╎│   ; CODE XREF from main @ 0x1218
+│      ╎└─&gt; 0x0000123d      837df807       cmp dword [var_8h], 7
+│      └──&lt; 0x00001241      7ed7           jle 0x121a
+│           0x00001243      c745f4080000.  mov dword [var_ch], 8
+│       ┌─&lt; 0x0000124a      eb43           jmp 0x128f
+│       │   ; CODE XREF from main @ 0x1293
+│      ┌──&gt; 0x0000124c      8b45f4         mov eax, dword [var_ch]
+│      ╎│   0x0000124f      4898           cdqe
+│      ╎│   0x00001251      0fb64405b0     movzx eax, byte [rbp + rax - 0x50]
+│      ╎│   0x00001256      8845ff         mov byte [c], al
+│      ╎│   0x00001259      8b45f4         mov eax, dword [var_ch]
+│      ╎│   0x0000125c      83e001         and eax, 1
+│      ╎│   0x0000125f      85c0           test eax, eax
+│     ┌───&lt; 0x00001261      750c           jne 0x126f
+│     │╎│   0x00001263      0fb645ff       movzx eax, byte [c]
+│     │╎│   0x00001267      83c005         add eax, 5
+│     │╎│   0x0000126a      8845ff         mov byte [c], al
+│    ┌────&lt; 0x0000126d      eb0a           jmp 0x1279
+│    ││╎│   ; CODE XREF from main @ 0x1261
+│    │└───&gt; 0x0000126f      0fb645ff       movzx eax, byte [c]
+│    │ ╎│   0x00001273      83e802         sub eax, 2
+│    │ ╎│   0x00001276      8845ff         mov byte [c], al
+│    │ ╎│   ; CODE XREF from main @ 0x126d
+│    └────&gt; 0x00001279      0fbe45ff       movsx eax, byte [c]
+│      ╎│   0x0000127d      488b55e0       mov rdx, qword [var_20h]
+│      ╎│   0x00001281      4889d6         mov rsi, rdx                ; FILE *stream
+│      ╎│   0x00001284      89c7           mov edi, eax                ; int c
+│      ╎│   0x00001286      e8d5fdffff     call sym.imp.fputc          ; int fputc(int c, FILE *stream)
+│      ╎│   0x0000128b      8345f401       add dword [var_ch], 1
+│      ╎│   ; CODE XREF from main @ 0x124a
+│      ╎└─&gt; 0x0000128f      837df416       cmp dword [var_ch], 0x16
+│      └──&lt; 0x00001293      7eb7           jle 0x124c
+│           0x00001295      0fb645c7       movzx eax, byte [var_39h]
+│           0x00001299      8845ff         mov byte [c], al
+│           0x0000129c      0fbe45ff       movsx eax, byte [c]
+│           0x000012a0      488b55e0       mov rdx, qword [var_20h]
+│           0x000012a4      4889d6         mov rsi, rdx                ; FILE *stream
+│           0x000012a7      89c7           mov edi, eax                ; int c
+│           0x000012a9      e8b2fdffff     call sym.imp.fputc          ; int fputc(int c, FILE *stream)
+│           0x000012ae      488b45e0       mov rax, qword [var_20h]
+│           0x000012b2      4889c7         mov rdi, rax                ; FILE *stream
+│           0x000012b5      e896fdffff     call sym.imp.fclose         ; int fclose(FILE *stream)
+│           0x000012ba      488b45e8       mov rax, qword [stream]
+│           0x000012be      4889c7         mov rdi, rax                ; FILE *stream
+│           0x000012c1      e88afdffff     call sym.imp.fclose         ; int fclose(FILE *stream)
+│           0x000012c6      90             nop
+│           0x000012c7      c9             leave
+└           0x000012c8      c3             ret
+</code></pre>
+<p>Therefor we need to fire up <a href="https://ghidra-sre.org/">ghidra</a></p>
+<pre><code class="language-c">/* DISPLAY WARNING: Type casts are NOT being printed */
+
+void main(void)
+
+{
+  size_t sVar1;
+  char local_58 [23];
+  char local_41;
+  int local_2c;
+  FILE *local_28;
+  FILE *local_20;
+  uint local_14;
+  int local_10;
+  char local_9;
+  
+  local_20 = fopen(&quot;flag.txt&quot;,&quot;r&quot;);
+  local_28 = fopen(&quot;rev_this&quot;,&quot;a&quot;);
+  if (local_20 == NULL) {
+    puts(&quot;No flag found, please make sure this is run on the server&quot;);
+  }
+  if (local_28 == NULL) {
+    puts(&quot;please run this on the server&quot;);
+  }
+  sVar1 = fread(local_58,24,1,local_20);
+  local_2c = sVar1;
+  if (sVar1 &lt; 1) {
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  local_10 = 0;
+  while (local_10 &lt; 8) {
+    local_9 = local_58[local_10];
+    fputc(local_9,local_28);
+    local_10 = local_10 + 1;
+  }
+  local_14 = 8;
+  while (local_14 &lt; 23) {
+    if ((local_14 &amp; 1) == 0) {
+      local_9 = local_58[local_14] + '\x05';
+    }
+    else {
+      local_9 = local_58[local_14] + -2;
+    }
+    fputc(local_9,local_28);
+    local_14 = local_14 + 1;
+  }
+  local_9 = local_41;
+  fputc(local_41,local_28);
+  fclose(local_28);
+  fclose(local_20);
+  return;
+}
+</code></pre>
+<p>After some renaming we get</p>
+<pre><code class="language-c">void main(void)
+
+{
+  size_t result;
+  char buf [23];
+  char local_41;
+  int local_2c;
+  FILE *output;
+  FILE *flag_file;
+  uint j;
+  int i;
+  char chr;
+  
+  flag_file = fopen(&quot;flag.txt&quot;,&quot;r&quot;);
+  output = fopen(&quot;rev_this&quot;,&quot;a&quot;);
+  if (flag_file == NULL) {
+    puts(&quot;No flag found, please make sure this is run on the server&quot;);
+  }
+  if (output == NULL) {
+    puts(&quot;please run this on the server&quot;);
+  }
+  result = fread(buf,24,1,flag_file);
+  local_2c = result;
+  if (result &lt; 1) {
+                    /* WARNING: Subroutine does not return */
+    exit(0);
+  }
+  i = 0;
+  while (i &lt; 8) {
+    chr = buf[i];
+    fputc(chr,output);
+    i = i + 1;
+  }
+  j = 8;
+  while (j &lt; 23) {
+    if ((j &amp; 1) == 0) {
+      chr = buf[j] + '\x05';
+    }
+    else {
+      chr = buf[j] + -2;
+    }
+    fputc(chr,output);
+    j = j + 1;
+  }
+  chr = local_41;
+  fputc(local_41,output);
+  fclose(output);
+  fclose(flag_file);
+  return;
+}
+</code></pre>
+<p>The important bit is here</p>
+<pre><code class="language-c">  i = 0;
+  while (i &lt; 8) {
+    chr = buf[i];
+    fputc(chr,output);
+    i = i + 1;
+  }
+  j = 8;
+  while (j &lt; 23) {
+    if ((j &amp; 1) == 0) {
+      chr = buf[j] + '\x05';
+    }
+    else {
+      chr = buf[j] + -2;
+    }
+    fputc(chr,output);
+    j = j + 1;
+  }
+</code></pre>
+<p>Slaping together some python.</p>
+<pre><code class="language-python">inp = &quot;picoCTF{w1{1wq83k055j5f}&quot;
+out = []
+
+for i in range(8):
+    out.append(inp[i])
+
+for j in range(8, 23):
+    if (j &amp; 1) == 0:
+        out.append(chr(ord(inp[j])-0x5))
+    else:
+        out.append(chr(ord(inp[j])+2))
+
+print(''.join(out))
+</code></pre>
+<p>This gives <code>picoCTF{r3v3rs35f207e7a</code>. We can guess that we need a <code>}</code> to close
+it. That is probaly what <code>local_41</code> was.</p>
+<p>Trying <code>picoCTF{r3v3rs35f207e7a}</code>, it is right.</p>
+<p>Flag: <code>picoCTF{r3v3rs35f207e7a}</code></p>
+
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                        
+                            <a rel="prev" href="../../reversing/11-asm4/index.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+                        
+
+                        
+                            <a rel="next" href="../../reversing/13-droids0/index.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                
+                    <a rel="prev" href="../../reversing/11-asm4/index.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+                
+
+                
+                    <a rel="next" href="../../reversing/13-droids0/index.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+                
+            </nav>
+
+        </div>
+
+        
+
+        
+
+        
+
+        
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+        
+
+        
+
+        
+        <script src="../../elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../searcher.js" type="text/javascript" charset="utf-8"></script>
+        
+
+        <script src="../../clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="../../book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+        
+
+        
+
+    </body>
+</html>
